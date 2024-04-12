@@ -34,8 +34,14 @@ func main() {
 	// fmt.Println("Inflation adjusted Return : ", inflationAdjustedReturn)
 }
 
-func calculateValuesReturn(principalCapital, expectedAppreciation, termOfInvestment float64) (float64, float64) {
-	returningValue := principalCapital * math.Pow((1+expectedAppreciation/100), termOfInvestment)
-	returnedInflationValue := returningValue / math.Pow((1+inflationRate/100), termOfInvestment)
-	return returningValue, returnedInflationValue
+// func calculateValuesReturn(principalCapital, expectedAppreciation, termOfInvestment float64) (float64, float64) {
+// 	returningValue := principalCapital * math.Pow((1+expectedAppreciation/100), termOfInvestment)
+// 	returnedInflationValue := returningValue / math.Pow((1+inflationRate/100), termOfInvestment)
+// 	return returningValue, returnedInflationValue
+// }
+
+func calculateValuesReturn(principalCapital, expectedAppreciation, termOfInvestment float64) (returningValue float64, returnedInflationValue float64) {
+	returningValue = principalCapital * math.Pow((1+expectedAppreciation/100), termOfInvestment)
+	returnedInflationValue = returningValue / math.Pow((1+inflationRate/100), termOfInvestment)
+	return
 }
