@@ -39,6 +39,7 @@ func performAction(actionNumber int) {
 		fmt.Println("ERROR")
 		fmt.Println(err)
 		fmt.Println("***********************")
+		//panic("Failure had arose, for security we have terminated the process")
 	}
 	switch actionNumber {
 	case 1:
@@ -57,6 +58,7 @@ func performAction(actionNumber int) {
 			writeBalance(balanceVal)
 		}
 	case 3:
+		//withdraw money
 		var withdrawAmount float64
 		fmt.Println("How much would you like to withdraw? :")
 		fmt.Scan(&withdrawAmount)
