@@ -1,10 +1,9 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"os"
-	"strconv"
+
+	fileOperations "example.com/banking-app/fileoperations"
 )
 
 const balanceFile = "balance.txt"
@@ -21,20 +20,8 @@ func main() {
 	}
 }
 
-func welcomeMessage() (uiInput int) {
-	fmt.Println("Which operation would you like to perform?")
-	fmt.Println("(Please enter the number corresponding to your desired action)")
-	fmt.Println("1. Check balance")
-	fmt.Println("2. Deposit money")
-	fmt.Println("3. Withdraw money")
-	fmt.Println("4. Exit")
-	fmt.Println("Your choice :")
-	fmt.Scan(&uiInput)
-	return uiInput
-}
-
 func performAction(actionNumber int) {
-	var balanceVal, err = getBalance()
+	var balanceVal, err = fileOperations.GetStoredFloat(balanceFile)
 	if err != nil {
 		fmt.Println("ERROR")
 		fmt.Println(err)
@@ -55,7 +42,7 @@ func performAction(actionNumber int) {
 		} else {
 			balanceVal += depositAmount
 			fmt.Printf("Your updated balance is : %0.2f\n", balanceVal)
-			writeBalance(balanceVal)
+			fileOperations.WriteFloatToFile(balanceFile, balanceVal)
 		}
 	case 3:
 		//withdraw money
@@ -67,7 +54,7 @@ func performAction(actionNumber int) {
 		} else {
 			balanceVal -= withdrawAmount
 			fmt.Printf("Your updated balance is : %0.2f\n", balanceVal)
-			writeBalance(balanceVal)
+			fileOperations.WriteFloatToFile(balanceFile, balanceVal)
 		}
 	case 4:
 		//display balance
@@ -76,25 +63,4 @@ func performAction(actionNumber int) {
 		fmt.Println("The choise you selected is not identified, please retry")
 	}
 
-}
-
-func writeBalance(balance float64) {
-	balanceText := fmt.Sprint(balance)
-	os.WriteFile(balanceFile, []byte(balanceText), 0644)
-}
-
-func getBalance() (float64, error) {
-	data, err := os.ReadFile(balanceFile)
-
-	if err != nil {
-
-		return 1000, errors.New("Failed to find balance file")
-	}
-
-	balanceText := string(data)
-	balance, err := strconv.ParseFloat(balanceText, 64)
-	if err != nil {
-		return 1000, errors.New("Failed to parse stored balance value")
-	}
-	return balance, nil
 }
